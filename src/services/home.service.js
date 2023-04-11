@@ -24,10 +24,10 @@ class HomeService {
         b = b.firstname.toLowerCase();
 
         if (a < b) {
-            return -1;
+            return 1;
         }
         if (a > b) {
-            return 1;
+            return -1;
         }
         return 0;
     }
@@ -41,6 +41,26 @@ class HomeService {
             }
             return result ? result : data;
         } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+    async editUser(id, data) {
+        try {
+            const newData = await db.edit({ id, data });
+            return newData;
+        } catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
+
+    async findOne(id) {
+        try {
+            const newData = await db.getOne({ id });
+            return newData;
+        } catch (error) {
+            console.log(error);
             throw new Error(error);
         }
     }

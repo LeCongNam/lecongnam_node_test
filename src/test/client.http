@@ -1,0 +1,46 @@
+#### add user
+POST http://localhost:3000/user/add HTTP/1.1
+content-type: application/json
+
+{
+    "firstname": "teo",
+    "lastname": "lecong",
+    "age": 100,
+    "coordinate": "122:258"
+}
+
+
+
+#### read user Info
+### require: userid in query
+### find id by create new User or path /src/db/db.json
+GET http://localhost:3000/user/read?id=Zu4q2HHLC 
+content-type: application/json 
+
+
+#### edit user
+PUT http://localhost:3000/user/edit/Zu4q2HHLC HTTP/1.1
+content-type: application/json
+
+ {
+        "firstname": "nnam",
+        "lastname": "lecong nam",
+        "age": 100,
+        "coordinate": "122:258"
+}
+
+
+#### Search User
+GET http://localhost:3000/user/search?name=nam
+content-type: application/json 
+
+
+
+#### Delete User
+DELETE  http://localhost:3000/user/edit/Z1br3Pzvs
+content-type: application/json 
+
+
+
+
+

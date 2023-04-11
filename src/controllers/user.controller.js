@@ -204,24 +204,24 @@ class UserController {
                 });
             }
 
-            const user = await db.getOne({ id });
-
-            if (!user) {
+            const user = await homeService.findOne(id);
+            if (!user || user.length === 0) {
                 return res.status(404).json({
                     success: false,
-                    data: null,
+                    data: {},
                     error: "User not found!",
                 });
             }
 
-            const newData = await db.edit({ id, data: req.body });
+            const newData = await homeService.editUser(id, { ...req.body });
 
             return res.json({
-                success: false,
+                success: true,
                 error: null,
                 data: newData,
             });
         } catch (error) {
+            console.log(error);
             next(error);
         }
     }
@@ -235,7 +235,7 @@ class UserController {
                     error: "missing Query data",
                 });
             }
-            const user = await db.getOne({ id });
+            const user = await homeService.findOne(id);
             if (!user || Object.keys(user).length === 0) {
                 return res.status(404).json({
                     success: false,
