@@ -34,7 +34,7 @@ class ReadFile {
         try {
             const data = await fs.readFileSync(path.join("src", "db", "db.json"));
             const databases = await JSON.parse(data);
-            let result = {};
+            let result = [];
             for (let i = 0; i < databases.length; i++) {
                 if (query.id) {
                     if (databases[i].id === query.id) {
@@ -45,10 +45,11 @@ class ReadFile {
                 }
 
                 if (query.name) {
-                    if (databases[i].lastname === query.name || databases[i].firstname === query.name) {
-                        result = {
-                            ...databases[i],
-                        };
+                    if (
+                        databases[i].lastname.indexOf(query.name) !== -1 ||
+                        databases[i].firstname.indexOf(query.name) !== -1
+                    ) {
+                        result.push(databases[i]);
                     }
                 }
             }

@@ -1,28 +1,6 @@
-const db = require("../services/readFile");
+const homeService = require("../services/home.service");
 
 class UserController {
-    async getUser(req, res, next) {
-        try {
-            const { id } = req.query;
-            if (!id) {
-                return res.status(422).json({
-                    success: false,
-                    error: "missing Query data!",
-                    data: {},
-                });
-            }
-            const data = await db.getOne({ id });
-
-            return res.json({
-                success: true,
-                error: null,
-                data,
-            });
-        } catch (error) {
-            next(error)
-        }
-    }
-
     async addUser(req, res, next) {
         try {
             const { firstname, lastname, age, coordinate } = req.body;
@@ -80,6 +58,7 @@ class UserController {
                     error: "coordinate must be a format '123:456' ",
                 });
             }
+
             const coordinateArr = coordinate.split(":");
             const [x, y] = coordinateArr;
             if (x.length !== 3 || y.length !== 3) {
@@ -89,11 +68,11 @@ class UserController {
                     error: "Please check length item match format '123:456'",
                 });
             }
-            const newUser = await db.add({
+            const newUser = await homeService.createUser({
                 firstname,
                 lastname,
                 age,
-                coordinate, // because
+                coordinate,
             });
 
             return res.json({
@@ -102,7 +81,29 @@ class UserController {
                 error: null,
             });
         } catch (error) {
-            next(error)
+            next(error);
+        }
+    }
+
+    async getUser(req, res, next) {
+        try {
+            const { id } = req.query;
+            if (!id) {
+                return res.status(422).json({
+                    success: false,
+                    error: "missing Query data!",
+                    data: {},
+                });
+            }
+            const data = await homeService.getOneUser(id);
+
+            return res.json({
+                success: true,
+                error: null,
+                data,
+            });
+        } catch (error) {
+            next(error);
         }
     }
 
@@ -115,7 +116,7 @@ class UserController {
                     error: "missing Query data",
                 });
             }
-            const data = await db.getOne({ name });
+            const data = await homeService.searchUser({ name });
 
             return res.json({
                 success: false,
@@ -123,7 +124,7 @@ class UserController {
                 data,
             });
         } catch (error) {
-            next(error)
+            next(error);
         }
     }
 
@@ -221,7 +222,7 @@ class UserController {
                 data: newData,
             });
         } catch (error) {
-            next(error)
+            next(error);
         }
     }
 
@@ -242,7 +243,7 @@ class UserController {
                     error: "User not found!",
                 });
             }
-            const result = await db.delete({ id })
+            const result = await db.delete({ id });
 
             return res.json({
                 success: true,
@@ -251,7 +252,7 @@ class UserController {
             });
         } catch (error) {
             console.log(error);
-            next(error)
+            next(error);
         }
     }
 }
