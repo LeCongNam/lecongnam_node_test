@@ -9,8 +9,6 @@ content-type: application/json
     "coordinate": "122:258"
 }
 
-
-
 #### read user Info
 ### require: userid in query
 ### find id by create new User or path /src/db/db.json
@@ -37,7 +35,14 @@ content-type: application/json
 
 
 #### Delete User
-DELETE  http://localhost:3000/user/edit/Z1br3Pzvs
+DELETE  http://localhost:3000/user/edit/uyoLMoyA_
+content-type: application/json 
+
+
+
+
+#### Search User
+GET http://localhost:3000/locate?n=1=&id=dahP4VpJY
 content-type: application/json 
 
 

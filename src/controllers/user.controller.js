@@ -1,4 +1,4 @@
-const homeService = require("../services/home.service");
+const userService = require("../services/user.service");
 
 class UserController {
     async addUser(req, res, next) {
@@ -68,7 +68,7 @@ class UserController {
                     error: "Please check length item match format '123:456'",
                 });
             }
-            const newUser = await homeService.createUser({
+            const newUser = await userService.createUser({
                 firstname,
                 lastname,
                 age,
@@ -95,7 +95,7 @@ class UserController {
                     data: {},
                 });
             }
-            const data = await homeService.getOneUser(id);
+            const data = await userService.getOneUser(id);
 
             return res.json({
                 success: true,
@@ -116,7 +116,7 @@ class UserController {
                     error: "missing Query data",
                 });
             }
-            const data = await homeService.searchUser({ name });
+            const data = await userService.searchUser({ name });
 
             return res.json({
                 success: false,
@@ -204,7 +204,7 @@ class UserController {
                 });
             }
 
-            const user = await homeService.findOne(id);
+            const user = await userService.findOne(id);
             if (!user || user.length === 0) {
                 return res.status(404).json({
                     success: false,
@@ -213,7 +213,7 @@ class UserController {
                 });
             }
 
-            const newData = await homeService.editUser(id, { ...req.body });
+            const newData = await userService.editUser(id, { ...req.body });
 
             return res.json({
                 success: true,
@@ -235,7 +235,7 @@ class UserController {
                     error: "missing Query data",
                 });
             }
-            const user = await homeService.findOne(id);
+            const user = await userService.findOne(id);
             if (!user || Object.keys(user).length === 0) {
                 return res.status(404).json({
                     success: false,
@@ -243,8 +243,7 @@ class UserController {
                     error: "User not found!",
                 });
             }
-            const result = await db.delete({ id });
-
+            const result = await userService.deleteUser(id);
             return res.json({
                 success: true,
                 data: result,

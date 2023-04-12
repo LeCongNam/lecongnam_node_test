@@ -1,10 +1,9 @@
-const express = require('express');
-const baseRouter = express.Router()
-const userRouter = require('./user');
+const express = require("express");
+const baseRouter = express.Router();
+const userRouter = require("./user");
+const homeRouter = require("./home");
 
+baseRouter.use("/user", userRouter);
+baseRouter.use("/locate", homeRouter);
 
-baseRouter.use('/user',userRouter)
-baseRouter.use('/locate',userRouter)
-
-
-module.exports = baseRouter
+module.exports = baseRouter;
